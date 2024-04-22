@@ -1,0 +1,9 @@
+insertUser:
+INSERT INTO users(name,address,age,date_of_birth)
+VALUES(?,?,?,?);
+
+getUsers:
+SELECT * FROM users;
+
+getUser:
+SELECT * FROM users WHERE id=?;

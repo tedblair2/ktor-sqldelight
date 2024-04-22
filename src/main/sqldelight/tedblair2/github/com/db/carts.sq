@@ -1,0 +1,27 @@
+insertCartItem:
+INSERT INTO carts(user_id,items)
+VALUES(?,?);
+
+getCartItems:
+SELECT * FROM carts ORDER BY id;
+
+getUsersCartItem:
+SELECT * FROM carts WHERE user_id=?;
+
+addNewItemToCart:
+UPDATE carts
+SET items = items || CAST(''|| :item ||'' AS JSONB)
+WHERE user_id = :userid;
+
+deleteItemInCart:
+UPDATE carts
+SET items=items #- COALESCE(CAST('{' || :index || '}' AS TEXT[]),'{}')
+WHERE user_id=:userid;
+
+updateItemQuantityInCart:
+UPDATE carts
+SET items=jsonb_set(items,CAST('{'|| :index ||',quantity}' AS TEXT[]),:newvalue)
+WHERE user_id=:userid;
+
+getUserItems:
+SELECT items FROM carts WHERE user_id=?;
